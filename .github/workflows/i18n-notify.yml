@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     # only run in the upstream repo and skip if the PR is from a fork
     if: >
-      github.repository == 'imputnet/helium' &&
+      github.repository == 'masonxxyz/hark' &&
       github.event.pull_request.head.repo.full_name == github.repository
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

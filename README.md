@@ -1,99 +1,75 @@
 <div align="center">
     <img src="resources/branding/app_icon/raw.png"
-        title="Helium" alt="Helium logo" width="120" />
-    <h1>Helium</h1>
+        title="Hark" alt="Hark logo" width="120" />
+    <h1>Hark</h1>
     <p>
-        The browser built around privacy, consent, and comfort.
+        A private, fast, and honest web browser.
     </p>
-    <a href="https://helium.computer/">
-        helium.computer
-    </a>
 </div>
 
-## Downloads
-> [!NOTE]
-> Helium is in beta, so unexpected issues may occur.
-> Please report them if they haven't already been reported.
+Hark is a Chromium-based browser, forked from
+[Helium](https://github.com/imputnet/helium). This repo holds the
+platform-independent part: patches, branding, translations, and build
+utilities. Internal pages live at `hark://` (for example `hark://settings`).
 
-The easiest way to download Helium is [helium.computer](https://helium.computer/).
-It'll pick a compatible binary for your platform automatically.
+## Hark repos
+- [hark](https://github.com/masonxxyz/hark): core patches, resources and
+  utilities (this repo).
+- [hark-macos](https://github.com/masonxxyz/hark-macos): macOS packaging and
+  the development environment. Start here to build.
+- [hark-onboarding](https://github.com/masonxxyz/hark-onboarding): the
+  first-run setup page at `hark://setup`.
 
-The same releases can also be downloaded from source on GitHub:
+## Infrastructure
+Hark doesn't run its own servers yet, so some features still use Helium's
+public infrastructure. These endpoints are intentionally left pointing
+upstream:
 
-- [Latest macOS release](https://github.com/imputnet/helium-macos/releases/latest)
-- [Latest Linux release](https://github.com/imputnet/helium-linux/releases/latest)
-- [Latest Windows release](https://github.com/imputnet/helium-windows/releases/latest)
+| What | Endpoint | Used for |
+| --- | --- | --- |
+| Services | `services.helium.imput.net` | extension proxy, !bangs, filter lists, spellcheck |
+| Web push | `push.helium.computer` | push notifications |
+| uBlock Origin | [imputnet/uBlock](https://github.com/imputnet/uBlock) | bundled ad blocker |
+| Non-free assets | [imputnet/helium-nonfree-assets](https://github.com/imputnet/helium-nonfree-assets) | search engine and browser icons |
+| Chromium sources | [imputnet/chromium-tarballs](https://github.com/imputnet/chromium-tarballs) | prepared Chromium archives |
 
-Helium supports automatic updates on macOS and Windows.
+To move off them, self-host [helium-services](https://github.com/imputnet/helium-services)
+and change the default origin in `patches/hark/core/services-prefs.patch`.
+Users can also set their own origin in `hark://settings/privacy/services`.
 
-## Helium repos
-All Helium packaging, tooling, services, and components are open source
-and published on GitHub.
+Browser updates (`updates.hark.invalid`) and crash reports
+(`crash.hark.invalid`) point at reserved `.invalid` hosts, so they're disabled
+until Hark has its own update feed and crash server.
 
-### Platform packaging and tooling
-- [Helium for macOS](https://github.com/imputnet/helium-macos)
-- [Helium for Linux](https://github.com/imputnet/helium-linux)
-- [Helium for Windows](https://github.com/imputnet/helium-windows)
+## Branding
+Every logo and icon is generated from one geometry file:
+[`resources/branding/source/hark_logo.py`](resources/branding/source/hark_logo.py).
+To regenerate all assets (Chromium icons, wordmarks, macOS icon sources),
+run `resources/branding/source/make_assets.py`.
 
-### Web services
-[Helium services](https://github.com/imputnet/helium-services) are Helium's
-privacy-first cloud services that handle the extension proxy, !bangs, filter
-lists, browser updates, crash reports, and etc. The services are self-hostable
-and the repo includes exactly what we use and host, down to Ansible playbooks.
-
-### Components
-- [Helium uBlock Origin](https://github.com/imputnet/uBlock) is a
-Helium-specific fork of uBlock Origin that includes our filters, defaults, and
-CNAME uncloaking.
-
-- [Helium onboarding](https://github.com/imputnet/helium-onboarding) includes
-the browser setup experience seen at `helium://setup` on first launch.
-
-- [Helium non-free assets](https://github.com/imputnet/helium-nonfree-assets)
-repo handles non-free assets used in Helium, such as search engine icons and
-icons of other browsers.
-
-### Tooling
-- [Chromium tarballs](https://github.com/imputnet/chromium-tarballs) creates
-prepared Chromium source archives used by Helium builds.
-
-- [Helium Prism](https://github.com/imputnet/helium-prism) is a Svelte UI
-Component library used in onboarding and the landing page.
-
-### Legal documents
-[Helium Legal](https://github.com/imputnet/helium-legal) repo includes the
-source for [Terms of Use](https://helium.computer/terms) and
-[Privacy Policy](https://helium.computer/privacy) documents, along with their
-full change history.
+Upstream Helium changes can be brought in by merging `imputnet/helium` and
+re-running `devutils/rebrand.py` from the hark-macos repo.
 
 ## Development
-macOS and Linux are our primary development platforms, so they're the
-recommended development environment for community contributions.
-
-[> See development docs in macOS repo](https://github.com/imputnet/helium-macos/blob/main/docs/building.md#development-build-and-environment)
-
-Linux packaging includes a similar development script, so the same guide
-can be applied there too.
-
-## Contributing
-Before contributing to Helium, please read the guidelines in
-[CONTRIBUTING.md](CONTRIBUTING.md).
+[> See development docs in hark-macos](https://github.com/masonxxyz/hark-macos/blob/main/docs/building.md#development-build-and-environment)
 
 ## Credits
 
+### Helium
+Hark is a fork of [Helium](https://github.com/imputnet/helium) by
+[imput](https://imput.net). Nearly everything that makes Hark what it is
+comes from their work.
+
 ### The Chromium project
-[The Chromium Project](https://www.chromium.org/) is at the core of Helium,
+[The Chromium Project](https://www.chromium.org/) is at the core of Hark,
 making it possible in the first place.
 
 ### ungoogled-chromium
 Helium originally branched off
 [ungoogled-chromium](https://github.com/ungoogled-software/ungoogled-chromium).
-Special thanks to everyone behind ungoogled-chromium, they made working with
-Chromium much easier.
 
 ### Other Chromium projects
-
-Helium includes some patches from other open source Chromium projects:
+Hark includes some patches from other open source Chromium projects:
 
 - [Inox patchset](https://github.com/gcarq/inox-patchset)
 - [Debian](https://tracker.debian.org/pkg/chromium-browser)
@@ -105,7 +81,7 @@ All patches are sorted by vendor in the [patches](patches/) directory of this re
 
 ## License
 All code, patches, modified portions of imported code or patches, and
-any other content that is unique to Helium and not imported from other
+any other content that is unique to Hark or Helium and not imported from other
 repositories is licensed under GPL-3.0. See [LICENSE](LICENSE).
 
 Any content imported from other projects retains its original license (for
